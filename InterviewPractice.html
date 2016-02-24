@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+    <meta charset="UTF-8">
+    <title>Sky high Interview</title>
+    <link rel="stylesheet" href="base.css">
+    <script src="bower_components/angular/angular.js"></script>
+
+    <script>
+        var app=angular.module("myapp",[]);
+
+        app.controller('mycontroller',function($scope){
+           // var wordsmap={};
+            $scope.search="hello manali hello james hello amy james";
+            $scope.words={};
+
+            $scope.countFrequency=function() {
+                var re=/\w+\s/g;
+                var words_arr = $scope.search.match(re);
+                console.log(words_arr);
+
+                var obj=[];
+                var item='';
+                for(var i=0;i<words_arr.length;i++){
+                    item=words_arr[i];
+                    if(obj[item]){
+                        obj[item]+=1;
+                    }else{
+                        obj[item]=1;
+                    }
+                }
+
+               var myobj=Object.keys(obj).map(function(key){
+                    return{
+                        "word":key,
+                        "count":obj[key]
+                    }
+                });
+
+                console.log(myobj);
+                myobj.sort(function(a,b){
+                   return b.count - a.count;
+                 });
+                $scope.words=myobj;
+
+                /*   var wordsmap = new Map();
+                   for (var i = 0; i < words_arr.length; i++) {
+                       if (wordsmap.has(words_arr[i])) {
+                           wordsmap.set(words_arr[i], wordsmap.get(words_arr[i]) + 1);
+                       } else {
+                           wordsmap.set(words_arr[i], 1);
+                       }
+                   }
+                   wordsmap.forEach(function(value, key) {
+                       console.log(key + " = " + value);
+                       $scope.words[key]=value;
+                   })*/
+            }
+
+       /*     document.querySelector("input[type=file]").addEventListener('change',function(){
+               var reader=new FileReader();
+                console.log(this.files[0]);
+                reader.onload=function(){
+                    console.log("Result:",reader.result.split(" "));
+                    console.log("Result:",reader.result.split(" ").length);
+
+                }
+                reader.readAsText(this.files[0]);
+            });*/
+        /*    $scope.readFile=function(){
+                var reader=new FileReader();
+                console.log("reading file",this.file);
+
+                /!*   reader.onload=function(){
+                       console.log(reader.result);
+                   }
+                   reader.readAsText(file);
+               *!/
+            }*/
+        })
+    </script>
+</head>
+
+<body ng-controller="mycontroller">
+    {{message}}<br>
+
+    <textarea rows="10" cols="100" ng-model="search"></textarea><br>
+    <button ng-click="countFrequency()">Count Frequency</button>
+    <ul>
+        <li ng-repeat="(key,value) in words">{{value.word}} {{value.count}}</li>
+    </ul>
+<!--<input type="file" id="myfile">-->
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+    <meta charset="UTF-8">
+    <title>Directive Practice</title>
+    <link rel="stylesheet" href="base.css">
+    <script src="bower_components/angular/angular.js"></script>
+</head>
+<script>
+    var app=angular.module("myapp",[]);
+    app.controller("mycontroller",['$scope',function($scope){
+        $scope.message="Hello from mycontroller";
+        $scope.customer={
+            name:"manali",
+            age:30
+        };
+
+        $scope.customers=[];
+        $scope.addCustomer=function(){
+            $scope.customers.push()
+        }
+
+        document.getElementById("mybutton").addEventListener("click",function(){
+            console.log('click fn called...');
+            $scope.$apply(function(){
+                $scope.message="Hello from mycontroller is changed";
+            });
+        });
+
+    }]);
+
+    app.directive("hello",function(){
+       return{
+           restrict:'ECA',
+           scope:{message:'='},
+           templateUrl:'directiveHtml.html',
+           link:function(scope,element,attrs){
+               var n=1;
+               scope.time=new Date();
+               element.on("click",function(){
+                   console.log("clicked ",n++,"times!");
+                   $scope.$apply(function(){
+                       scope.message="message changed from directive";
+                   });
+               })
+           }
+       }
+    });
+</script>
+<div hello style="background-color: gainsboro" message="message"></div>
+<body ng-controller="mycontroller">
+{{message}}
+<button id="mybutton">click me</button>
+</body>
+</html>

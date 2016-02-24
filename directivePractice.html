@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+    <meta charset="UTF-8">
+    <title>Directive Practice</title>
+    <link rel="stylesheet" href="base.css">
+    <script src="bower_components/angular/angular.js"></script>
+</head>
+<script>
+    var app=angular.module("myapp",[]);
+    app.controller("mycontroller",['$scope',function($scope){
+        $scope.message="Hello from mycontroller";
+
+    }]);
+    app.directive("hello",function(){
+       return{
+           restrict:'ECA',
+           template:'<div>Hello world from Directive!</div>'
+       }
+    });
+</script>
+<div hello></div>
+<hello>hey...</hello>
+<div class="hello"></div>
+<body ng-controller="mycontroller">
+{{message}}
+</body>
+</html>

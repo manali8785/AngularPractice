@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+    <meta charset="UTF-8">
+    <title>Form</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <style>
+        .table{
+            border:1px solid black;
+        }
+        form{
+            background-color: gainsboro;
+            width: 50%;
+        }
+        .form-control{
+            width: 50%;
+        }
+    </style>
+</head>
+<script>
+    var app=angular.module('myapp',[]);
+    app.controller("mycontroller",['$scope',function($scope){
+        $scope.message="Welcome Manali!";
+        $scope.candidates=[];
+        $scope.addUser=function(user){
+            console.log('adding user');
+            var cand=angular.copy(user);
+            $scope.candidates.push(cand);
+            console.log($scope.candidates);
+            $scope.user={};
+        }
+
+        $scope.reset=function(){
+
+        }
+    }]);
+
+</script>
+<body ng-controller="mycontroller">
+{{message}}
+<form>
+    <div class="form-group">
+        <label>Name</label>
+        <input type="name" class="form-control" ng-model="user.name" placeholder="Name">
+    </div>
+    <div class="form-group">
+        <label>Email</label>
+        <input type="email" class="form-control" ng-model="user.email" placeholder="Email">
+    </div>
+    <button type="submit" class="btn btn-default" ng-click="addUser(user)">Submit</button>
+    <button type="button" class="btn btn-default" ng-click="reset()">Reset</button>
+</form>
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+    </tr>
+    <tr ng-repeat="c in candidates">
+        <td>{{c.name}}</td>
+        <td>{{c.email}}</td>
+    </tr>
+</table>
+</body>
+</html>
