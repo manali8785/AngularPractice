@@ -16,8 +16,8 @@
         };
 
         $scope.customers=[];
-        $scope.addCustomer=function(){
-            $scope.customers.push()
+        $scope.addCustomer=function(customer){
+            $scope.customers.push(angular.copy(customer));
         }
 
         document.getElementById("mybutton").addEventListener("click",function(){
@@ -50,6 +50,7 @@
 <div hello style="background-color: gainsboro" message="message"></div>
 <body ng-controller="mycontroller">
 {{message}}
-<button id="mybutton">click me</button>
+<button id="mybutton" ng-click="addCustomer(customer)">click me</button>
+{{customers}}
 </body>
 </html>
