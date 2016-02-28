@@ -13,9 +13,11 @@
     var app=angular.module('myapp',[]);
     app.controller("mycontroller",['$scope',function($scope){
         $scope.candidates=[];
-        $scope.addUser=function(user){
-            console.log('adding user');
-            var cand=angular.copy(user);
+        $scope.user={};
+
+        $scope.addUser=function(){
+        //  console.log("User:",$scope.user);
+            var cand=angular.copy($scope.user);
             $scope.candidates.push(cand);
             console.log($scope.candidates);
             $scope.user={};
@@ -23,26 +25,40 @@
         $scope.reset=function(){
             $scope.user={};
         }
+        $scope.alert=function(){
+            alert('hi');
+        }
     }]);
-
 </script>
-<body ng-controller="mycontroller">
-<div class="panel panel-default">
+<body ng-controller="mycontroller" ng-init="message='hello world!!!!'">
+{{x}}
+<div id="form" class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Sign Up</h3>
     </div>
     <div class="panel-body">
-        <form>
+        <form name="form" novalidate>
             <div class="form-group">
                 <label>Name</label>
-                <input type="text" class="form-control" ng-model="user.name" placeholder="Name">
+                <input type="text" class="form-control" ng-model="user.name" name="uname" placeholder="Name" required>
+                <div ng-show="form.uname.$invalid && !form.uname.$pristine">
+                    <div ng-message="required">This field is required</div>
+                </div>
             </div>
             <div class="form-group">
                 <label>Email</label>
-                <input type="text" class="form-control" ng-model="user.email" placeholder="Email">
+                <input type="text" class="form-control" ng-model="user.email" placeholder="Email" name="email" required>
+                <div ng-show="form.email.$invalid && !form.email.$pristine">
+                    <div ng-message="required">This field is required</div>
+                </div>
             </div>
-            <button type="submit" class="btn btn-default" ng-click="addUser(user)">Submit</button>
+        <!--    <div class="form-group">
+                <label>I agree</label>
+                <input type="checkbox" ng-model="check"><button ng-hide="check" ng-click="alert();">disable me</button>
+            </div>-->
+            <button type="submit" class="btn btn-default" ng-disabled="form.$invalid" ng-click="addUser()">Submit</button>
             <button type="button" class="btn btn-default" ng-click="reset()">Reset</button>
+            <!-- <div ng-include="'InterviewPractice.html'"></div>-->
         </form>
 
     </div>
@@ -50,7 +66,8 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">List of users</h3>
+        <span class="panel-title">List of users</span>
+        <input type="text" ng-model="search" placeholder="Search user">
     </div>
     <div class="panel-body">
         <table class="table">
@@ -58,7 +75,7 @@
                 <th>Name</th>
                 <th>Email</th>
             </tr>
-            <tr ng-repeat="c in candidates">
+            <tr ng-repeat="c in candidates |filter:search">
                 <td>{{c.name}}</td>
                 <td>{{c.email}}</td>
             </tr>
